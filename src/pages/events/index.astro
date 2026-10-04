@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import { getCollection } from "astro:content";
+import { sortFeed } from "../../lib/sort-feed.mjs";
 
 type FeedItem = {
   kind: "event" | "page";
@@ -42,7 +43,7 @@ const pages = (await getCollection("pages"))
     } satisfies FeedItem;
   });
 
-const items = [...events, ...pages].sort((a, b) => b.sortMs - a.sortMs);
+const items = sortFeed([...events, ...pages], (item: FeedItem) => item.sortMs);
 
 const PER_PAGE = 10;
 const totalPages = Math.max(1, Math.ceil(items.length / PER_PAGE));
