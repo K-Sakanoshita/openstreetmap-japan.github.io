@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
 import { getCollection } from "astro:content";
+import { sortFeed } from "../lib/sort-feed.mjs";
 
 type FeedItem = {
   kind: "event" | "page";
@@ -56,7 +57,7 @@ const pages = (await getCollection("pages"))
     } satisfies FeedItem;
   });
 
-const items = [...events, ...pages].sort((a, b) => b.date.getTime() - a.date.getTime());
+const items = sortFeed([...events, ...pages], (item: FeedItem) => item.date.getTime());
 const [featured, ...rest] = items;
 const list = rest.slice(0, 14);
 ---
