@@ -1,6 +1,10 @@
 import { useEffect, useRef } from "react"
-import maplibregl, { type Map as MapType } from "maplibre-gl"
+import * as maplibregl from "maplibre-gl"
+import type { Map as MapType } from "maplibre-gl"
 import "maplibre-gl/dist/maplibre-gl.css"
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url"
+
+maplibregl.setWorkerUrl(workerUrl)
 
 type EventPoint = {
     id: string; // 1038
